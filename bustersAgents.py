@@ -165,14 +165,20 @@ class GreedyBustersAgent(BustersAgent):
         minaction = None
         minval = float('inf')
         max_ghost_index = []
+
+        # Here we will iterate through each living ghost position distribution
         for ghostPositionDist in livingGhostPositionDistributions:
+            # Get the ghost position that has maximum probability
             max_ghost_index.append(ghostPositionDist.argMax())
 
             for action in legal:
                 pacmanNewPosition = Actions.getSuccessor(pacmanPosition, action)
                 for index in max_ghost_index:
+                    # Finding the distance between the ghost and pacman position
                     dist = self.distancer.getDistance(pacmanNewPosition, index)
+                    # Choosing the action that has minimum distance
                     if dist < minval:
                         minval = dist
                         minaction = action
+        # Optimal action with maximum probability and minimum distance
         return minaction
